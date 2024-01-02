@@ -110,8 +110,9 @@ class LangchainAgent(AgentBase):
             )
         if agent_llm.llm.provider == "AZURE_OPENAI":
             return AzureChatOpenAI(
-                openai_api_key=agent_llm.llm.apiKey,
+                api_key=agent_llm.llm.apiKey,
                 temperature=0,
+                openai_api_type="azure",
                 streaming=self.enable_streaming,
                 callbacks=[self.callback] if self.enable_streaming else [],
                 **(agent_llm.llm.options if agent_llm.llm.options else {}),
@@ -157,7 +158,7 @@ class LangchainAgent(AgentBase):
         await memory.init()
         return memory
 
-    async def get_agent(self, config: Agent) -> Any:
+    async def get_agent(self, config: Agent):
         llm = await self._get_llm(agent_llm=config.llms[0], model=config.llmModel)
         tools = await self._get_tools(
             agent_datasources=config.datasources, agent_tools=config.tools

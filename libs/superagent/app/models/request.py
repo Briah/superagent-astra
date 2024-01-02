@@ -46,7 +46,7 @@ class Tool(BaseModel):
     description: str
     type: str
     metadata: Optional[Dict[Any, Any]]
-    returnDirect: Optional[bool]
+    returnDirect: bool
 
 
 class AgentTool(BaseModel):
@@ -67,10 +67,9 @@ class Workflow(BaseModel):
 class WorkflowStep(BaseModel):
     order: int
     agentId: str
-    input: str
-    output: str
 
 
 class WorkflowInvoke(BaseModel):
     input: str
     enableStreaming: bool
+    sessionId: Optional[str]
